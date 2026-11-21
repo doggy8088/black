@@ -161,6 +161,8 @@ h1 { margin:0; font-size:clamp(2.5rem,5.6vw,5rem); line-height:1.18; font-weight
 .instructions { text-align:center; color:var(--muted); font-size:.9rem; margin:1rem 0; }
 kbd { border:1px solid var(--line); padding:.08rem .35rem; border-radius:.3rem; }
 .site-footer { border-top:1px solid var(--line); color:var(--muted); font-size:.875rem; }
+.footer-links { display:flex; align-items:center; gap:.75rem; margin-inline-start:auto; }
+.repo-link { justify-content:center; min-width:44px; }
 .site-footer a { display:inline-flex; align-items:center; min-height:44px; color:inherit; text-underline-offset:.2em; }
 :focus-visible { outline:3px solid var(--accent); outline-offset:3px; }
 @media (hover:hover) { .swatch:hover { transform:translateY(-2px); } .swatch:active { transform:translateY(0); } }
