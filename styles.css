@@ -173,7 +173,8 @@ kbd { border:1px solid var(--line); padding:.08rem .35rem; border-radius:.3rem; 
 }
 @media (max-width:42rem) {
   .palette { grid-template-columns:1fr; gap:.55rem; }
-  .intro { min-height:12rem; }
+  :root { --gutter:clamp(.75rem, 4vw, 1.25rem); }
+  .intro { min-height:clamp(9rem, 23svh, 12rem); }
   .intro::before { background:linear-gradient(0deg,#05100ee6,transparent 90%); }
   .swatch { grid-template-columns:2.6rem 1fr auto; align-items:center; gap:.2rem .65rem; }
   .card-top,.card-bottom { display:contents; }
@@ -182,6 +183,14 @@ kbd { border:1px solid var(--line); padding:.08rem .35rem; border-radius:.3rem; 
   .colour-code { grid-column:3; grid-row:1; font-size:.72rem; }
   .card-bottom span { grid-column:2; grid-row:2; font-size:.82rem; }
   .card-bottom svg { grid-column:3; grid-row:2; justify-self:end; }
-  .site-header,.site-footer { min-height:3.75rem; }
+  .site-header,.site-footer { min-height:3.5rem; }
+  .site-footer {
+    flex-wrap:nowrap;
+    gap:.25rem;
+    white-space:nowrap;
+    font-size:clamp(.8125rem, 3.6vw, .875rem);
+  }
+  .footer-links { gap:.25rem; }
+  .site-footer .license-link { display:none; }
 }
 .colour-code kbd { margin-left:.25rem; border-color:currentColor; }
