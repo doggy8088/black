@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="zh-TW">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="color-scheme" content="light dark">
+  <script>
+    try {
+      const theme = localStorage.getItem('screen-theme');
+      if (theme === 'light' || theme === 'dark') {
+        document.querySelector('meta[name="color-scheme"]').content = theme;
+      }
+    } catch { /* Site storage can be disabled. */ }
+  </script>
+  <title>純色全螢幕｜黑屏、白屏、綠屏</title>
+  <meta name="description" content="一鍵切換黑屏、白屏或綠屏。用黑屏看清螢幕灰塵，白屏臨時照明，或用綠屏當作拍攝背景。">
+  <link rel="canonical" href="https://black.miniasp.com/">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="zh_TW">
+  <meta property="og:site_name" content="純色全螢幕">
+  <meta property="og:title" content="純色全螢幕｜黑屏、白屏、綠屏">
+  <meta property="og:description" content="一鍵切換黑屏、白屏或綠屏。">
+  <meta property="og:url" content="https://black.miniasp.com/">
+  <meta property="og:image" content="https://black.miniasp.com/assets/share.jpg">
+  <meta property="og:image:type" content="image/jpeg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="深色背景上並排的黑、白、綠三個螢幕">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="純色全螢幕｜黑屏、白屏、綠屏">
+  <meta name="twitter:description" content="一鍵切換黑屏、白屏或綠屏。">
+  <meta name="twitter:image" content="https://black.miniasp.com/assets/share.jpg">
+  <meta name="twitter:image:alt" content="深色背景上並排的黑、白、綠三個螢幕">
+  <link rel="icon" href="favicon.ico" sizes="16x16 32x32 48x48">
+  <link rel="icon" href="assets/icons/icon-16.png" type="image/png" sizes="16x16">
+  <link rel="icon" href="assets/icons/icon-32.png" type="image/png" sizes="32x32">
+  <link rel="icon" href="assets/icons/icon-48.png" type="image/png" sizes="48x48">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="assets/icons/icon-180.png">
+  <link rel="manifest" href="site.webmanifest">
+  <link rel="stylesheet" href="styles.css">
+  <script src="screen.js" defer></script>
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "純色全螢幕",
+      "url": "https://black.miniasp.com/",
+      "description": "免費的一鍵黑屏、白屏與綠屏工具。",
+      "applicationCategory": "UtilitiesApplication",
+      "operatingSystem": "Any",
+      "inLanguage": "zh-TW",
+      "isAccessibleForFree": true,
+      "author": {
+        "@type": "Person",
+        "name": "Will 保哥",
+        "url": "https://blog.miniasp.com/",
+        "sameAs": ["https://blog.miniasp.com/"]
+      }
+    }
+  </script>
+</head>
+<body>
+  <a class="skip-link" href="#main">跳至色彩選擇</a>
+  <header class="site-header frame">
+    <span class="wordmark"><img alt="" src="assets/icons/icon-48.png" width="28" height="28"> 純色全螢幕</span>
+    <label class="theme" id="theme-control" hidden>
+      <span>外觀</span>
+      <select id="theme">
+        <option value="light dark">跟隨系統</option>
+        <option value="light">淺色</option>
+        <option value="dark">深色</option>
+      </select>
+    </label>
+  </header>
+  <main class="frame" id="main">
+    <div class="intro">
+      <h1>純色全螢幕</h1>
+      <p>選個顏色，一鍵填滿螢幕。</p>
+    </div>
+    <div class="palette" aria-label="螢幕顏色" role="group" inert>
+      <button class="swatch" data-color="black" type="button" aria-labelledby="black-name" aria-describedby="black-use">
+        <span class="swatch-face">
+          <span class="expand" aria-hidden="true"></span>
+          <span class="swatch-name" id="black-name">黑屏</span>
+          <span class="swatch-code">#000000</span>
+        </span>
+        <span class="swatch-use" id="black-use">擦拭前看清灰塵</span>
+      </button>
+      <button class="swatch" data-color="white" type="button" aria-labelledby="white-name" aria-describedby="white-use">
+        <span class="swatch-face">
+          <span class="expand" aria-hidden="true"></span>
+          <span class="swatch-name" id="white-name">白屏</span>
+          <span class="swatch-code">#FFFFFF</span>
+        </span>
+        <span class="swatch-use" id="white-use">在暗處臨時照明</span>
+      </button>
+      <button class="swatch" data-color="green" type="button" aria-labelledby="green-name" aria-describedby="green-use">
+        <span class="swatch-face">
+          <span class="expand" aria-hidden="true"></span>
+          <span class="swatch-name" id="green-name">綠屏</span>
+          <span class="swatch-code">#00FF00</span>
+        </span>
+        <span class="swatch-use" id="green-use">拍攝時當作去背背景</span>
+      </button>
+    </div>
+    <p id="instructions" class="instructions">全螢幕時，輕點畫面或按 <kbd>Esc</kbd> 返回。</p>
+    <noscript><p>請啟用 JavaScript 以開啟全螢幕。</p></noscript>
+  </main>
+  <footer class="site-footer frame">
+    <span>© 2026 <a href="https://blog.miniasp.com/" target="_blank" rel="noopener noreferrer">Will 保哥</a></span>
+    <span><a href="LICENSE">MIT 授權</a> · <a href="https://blackscreen.cc/">功能參考</a></span>
+  </footer>
+  <dialog id="display" aria-label="純色全螢幕" aria-describedby="exit-hint">
+    <button id="display-color" type="button" autofocus aria-label="離開全螢幕"></button>
+    <span class="visually-hidden" id="exit-hint">輕點畫面或按 Esc 返回。</span>
+  </dialog>
+</body>
+</html>
