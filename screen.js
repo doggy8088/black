@@ -1,3 +1,5 @@
+import { initLanguage } from './i18n/index.js';
+
 const colorScheme = document.querySelector('meta[name="color-scheme"]');
 const theme = document.querySelector('#theme');
 const themeKey = 'screen-theme';
@@ -34,6 +36,8 @@ window.addEventListener('storage', (event) => {
 const palette = document.querySelector('.palette');
 const display = document.querySelector('#display');
 const surface = document.querySelector('#display-color');
+const supportsDialog = typeof display.showModal === 'function';
+initLanguage(supportsDialog);
 let opener;
 
 async function openScreen(button) {
@@ -57,7 +61,7 @@ async function openScreen(button) {
   }
 }
 
-if (typeof display.showModal === 'function') {
+if (supportsDialog) {
   palette.inert = false;
   document.addEventListener('keydown', (event) => {
     if (event.repeat || event.isComposing || event.ctrlKey || event.metaKey ||
@@ -74,8 +78,6 @@ if (typeof display.showModal === 'function') {
   for (const button of palette.querySelectorAll('button')) {
     button.addEventListener('click', () => openScreen(button));
   }
-} else {
-  document.querySelector('#instructions').textContent = '請使用新版瀏覽器開啟純色畫面。';
 }
 
 surface.addEventListener('click', () => display.close());
