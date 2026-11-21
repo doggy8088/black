@@ -2,25 +2,28 @@ const colorScheme = document.querySelector('meta[name="color-scheme"]');
 const theme = document.querySelector('#theme');
 const themeKey = 'screen-theme';
 
+const systemTheme = matchMedia('(prefers-color-scheme: dark)');
+
 function applyTheme(value) {
   const scheme = value === 'light' || value === 'dark' ? value : 'light dark';
   colorScheme.content = scheme;
-  theme.value = scheme;
+  const dark = scheme === 'dark' || (scheme === 'light dark' && systemTheme.matches);
+  theme.setAttribute('aria-checked', String(dark));
 }
 
 applyTheme(colorScheme.content);
-document.querySelector('#theme-control').hidden = false;
+theme.hidden = false;
+systemTheme.addEventListener('change', () => applyTheme(colorScheme.content));
 
-theme.addEventListener('change', () => {
-  applyTheme(theme.value);
+theme.addEventListener('click', () => {
+  const dark = theme.getAttribute('aria-checked') !== 'true';
+  const scheme = dark === systemTheme.matches ? 'light dark' : dark ? 'dark' : 'light';
+  applyTheme(scheme);
   try {
-    if (theme.value === 'light dark') {
-      localStorage.removeItem(themeKey);
-    } else {
-      localStorage.setItem(themeKey, theme.value);
-    }
+    if (scheme === 'light dark') localStorage.removeItem(themeKey);
+    else localStorage.setItem(themeKey, scheme);
   } catch {
-    // The in-page preference still works when site storage is disabled.
+    // The preference still applies when storage is disabled.
   }
 });
 
@@ -37,6 +40,7 @@ async function openScreen(button) {
   opener = button;
   display.dataset.color = button.dataset.color;
   display.setAttribute('aria-label', button.querySelector('.swatch-name').textContent);
+  if (display.open) return;
   display.showModal();
 
   if (document.fullscreenEnabled && surface.requestFullscreen) {
@@ -55,6 +59,18 @@ async function openScreen(button) {
 
 if (typeof display.showModal === 'function') {
   palette.inert = false;
+  document.addEventListener('keydown', (event) => {
+    if (event.repeat || event.isComposing || event.ctrlKey || event.metaKey ||
+        event.altKey || event.shiftKey || event.defaultPrevented) return;
+    if (event.target instanceof Element &&
+        event.target.closest('input, textarea, select, [contenteditable="true"]')) return;
+    if (!['1', '2', '3'].includes(event.key)) return;
+    const button = palette.querySelector('[aria-keyshortcuts="' + event.key + '"]');
+    if (button) {
+      event.preventDefault();
+      openScreen(button);
+    }
+  });
   for (const button of palette.querySelectorAll('button')) {
     button.addEventListener('click', () => openScreen(button));
   }
