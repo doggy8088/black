@@ -104,7 +104,13 @@ body {
   overflow: hidden;
 }
 
-#display::backdrop { background: var(--swatch); }
+#display:modal { overscroll-behavior: contain; }
+
+#display::backdrop {
+  background: var(--swatch);
+  overflow: hidden;
+  overscroll-behavior: contain;
+}
 
 #display-color {
   display: block;
@@ -117,12 +123,154 @@ body {
   appearance: none;
   outline: none;
   cursor: none;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+  touch-action: none;
   -webkit-tap-highlight-color: transparent;
 }
+
+#display[data-picker-open] #display-color { cursor: default; }
 
 #display-color::backdrop { background: var(--swatch); }
 
 #display, #display-color { forced-color-adjust: none; }
+
+.color-picker {
+  position: fixed;
+  inset: 0;
+  margin: auto;
+  inline-size: min(22rem, calc(100vw - 2rem));
+  block-size: fit-content;
+  padding: .9rem 1rem;
+  border-radius: 1rem;
+  background: rgb(20 24 22 / .92);
+  color: #f3f6ee;
+  border: 1px solid rgb(255 255 255 / .36);
+  box-shadow: 0 0 0 1px rgb(0 0 0 / .55), 0 20px 48px rgb(0 0 0 / .45);
+  backdrop-filter: blur(14px);
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: none;
+  opacity: 0;
+  transition-property: opacity, transform, display;
+  transition-duration: .12s;
+  transition-timing-function: ease-out;
+  transition-behavior: allow-discrete;
+}
+
+.color-picker[hidden] { display: none; }
+
+.color-picker:not([hidden]) {
+  display: grid;
+  gap: .75rem;
+  opacity: 1;
+}
+
+@starting-style {
+  .color-picker:not([hidden]) { opacity: 0; }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .color-picker { transform: scale(.96); }
+  .color-picker:not([hidden]) { transform: scale(1); }
+  @starting-style {
+    .color-picker:not([hidden]) { transform: scale(.96); }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .color-picker { transition-duration: .08s; }
+}
+
+.color-picker-header {
+  display: flex;
+  align-items: center;
+  gap: .6rem;
+}
+
+.color-picker-swatch {
+  inline-size: 1.35rem;
+  block-size: 1.35rem;
+  border-radius: 50%;
+  border: 1.5px solid rgb(255 255 255 / .5);
+  box-shadow: 0 0 0 1px rgb(0 0 0 / .5);
+  background: var(--picker-preview, #000);
+  forced-color-adjust: none;
+  flex: none;
+}
+
+.color-picker-hex {
+  font: 600 .95rem ui-monospace, SFMono-Regular, Menlo, monospace;
+  letter-spacing: .04em;
+  color: #f3f6ee;
+}
+
+.color-spectrum {
+  position: relative;
+  inline-size: 100%;
+  block-size: 13rem;
+  border-radius: .6rem;
+  border: 1px solid rgb(255 255 255 / .28);
+  cursor: crosshair;
+  touch-action: none;
+  forced-color-adjust: none;
+  background:
+    linear-gradient(to bottom,
+      rgb(255 255 255 / 1) 0%,
+      rgb(255 255 255 / 0) 50%,
+      rgb(0 0 0 / 0) 50%,
+      rgb(0 0 0 / 1) 100%),
+    linear-gradient(to right,
+      hsl(0 var(--picker-s, 100%) 50%),
+      hsl(60 var(--picker-s, 100%) 50%),
+      hsl(120 var(--picker-s, 100%) 50%),
+      hsl(180 var(--picker-s, 100%) 50%),
+      hsl(240 var(--picker-s, 100%) 50%),
+      hsl(300 var(--picker-s, 100%) 50%),
+      hsl(360 var(--picker-s, 100%) 50%));
+}
+
+.color-saturation {
+  position: relative;
+  inline-size: 100%;
+  block-size: 1.15rem;
+  border-radius: 999px;
+  border: 1px solid rgb(255 255 255 / .28);
+  cursor: ew-resize;
+  touch-action: none;
+  forced-color-adjust: none;
+  background: linear-gradient(
+    to right,
+    hsl(var(--picker-h, 0) 0% 50%),
+    hsl(var(--picker-h, 0) 100% 50%)
+  );
+}
+
+.color-thumb {
+  position: absolute;
+  inline-size: 1.125rem;
+  block-size: 1.125rem;
+  border-radius: 50%;
+  border: 2px solid #fff;
+  box-shadow: 0 0 0 1.5px rgb(0 0 0 / .75), inset 0 0 0 1px rgb(0 0 0 / .45);
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  forced-color-adjust: none;
+}
+
+#color-spectrum-thumb {
+  left: calc(var(--picker-x, 0) * 100%);
+  top: calc(var(--picker-y, 1) * 100%);
+  background: var(--picker-preview, #000);
+}
+
+#color-saturation-thumb {
+  left: calc(var(--picker-s-ratio, 1) * 100%);
+  top: 50%;
+  background: hsl(var(--picker-h, 0) var(--picker-s, 100%) 50%);
+}
+
 html:has(#display[open]) { overflow: hidden; }
 
 .visually-hidden {
