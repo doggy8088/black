@@ -112,6 +112,8 @@ body {
   overscroll-behavior: contain;
 }
 
+#display-content { block-size: 100%; }
+
 #display-color {
   display: block;
   inline-size: 100%;
@@ -132,7 +134,7 @@ body {
 
 #display[data-picker-open] #display-color { cursor: default; }
 
-#display-color::backdrop { background: var(--swatch); }
+#display-content::backdrop { background: var(--swatch); }
 
 #display, #display-color { forced-color-adjust: none; }
 

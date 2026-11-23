@@ -35,6 +35,7 @@ window.addEventListener('storage', (event) => {
 
 const palette = document.querySelector('.palette');
 const display = document.querySelector('#display');
+const displayContent = document.querySelector('#display-content');
 const surface = document.querySelector('#display-color');
 const picker = document.querySelector('#color-picker');
 const pickerHex = document.querySelector('#color-picker-hex');
@@ -242,11 +243,12 @@ async function openScreen(button) {
   if (display.open) return;
   display.showModal();
 
-  if (document.fullscreenEnabled && display.requestFullscreen) {
+  if (document.fullscreenEnabled && displayContent.requestFullscreen) {
     try {
-      await display.requestFullscreen({ navigationUI: 'hide' });
+      // A dialog cannot enter fullscreen. Its content keeps the swatch and picker together.
+      await displayContent.requestFullscreen({ navigationUI: 'hide' });
       // The user may have closed the viewport overlay while fullscreen was pending.
-      if (!display.open && document.fullscreenElement === display) {
+      if (!display.open && document.fullscreenElement === displayContent) {
         await document.exitFullscreen();
       }
     } catch (error) {
@@ -461,7 +463,7 @@ display.addEventListener('close', async () => {
   ctrlHeld = false;
   ctrlDismissed = false;
   closePicker();
-  if (document.fullscreenElement === display) {
+  if (document.fullscreenElement === displayContent) {
     try {
       await document.exitFullscreen();
     } catch (error) {

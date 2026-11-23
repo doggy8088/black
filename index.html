@@ -113,17 +113,19 @@
     </nav>
   </footer>
   <dialog id="display" aria-label="純色全螢幕" aria-describedby="exit-hint">
-    <button id="display-color" type="button" autofocus aria-label="離開全螢幕"></button>
-    <div id="color-picker" class="color-picker" dir="ltr" role="group" aria-label="選擇顏色" hidden>
-      <div class="color-picker-header">
-        <span class="color-picker-swatch" id="color-picker-swatch" aria-hidden="true"></span>
-        <output class="color-picker-hex" id="color-picker-hex">#000000</output>
-      </div>
-      <div id="color-spectrum" class="color-spectrum" role="presentation">
-        <span class="color-thumb" id="color-spectrum-thumb" aria-hidden="true"></span>
-      </div>
-      <div id="color-saturation" class="color-saturation" role="presentation">
-        <span class="color-thumb" id="color-saturation-thumb" aria-hidden="true"></span>
+    <div id="display-content">
+      <button id="display-color" type="button" autofocus aria-label="離開全螢幕"></button>
+      <div id="color-picker" class="color-picker" dir="ltr" role="group" aria-label="選擇顏色" hidden>
+        <div class="color-picker-header">
+          <span class="color-picker-swatch" id="color-picker-swatch" aria-hidden="true"></span>
+          <output class="color-picker-hex" id="color-picker-hex">#000000</output>
+        </div>
+        <div id="color-spectrum" class="color-spectrum" role="presentation">
+          <span class="color-thumb" id="color-spectrum-thumb" aria-hidden="true"></span>
+        </div>
+        <div id="color-saturation" class="color-saturation" role="presentation">
+          <span class="color-thumb" id="color-saturation-thumb" aria-hidden="true"></span>
+        </div>
       </div>
     </div>
     <span class="visually-hidden" id="exit-hint">輕點畫面或按 Esc 返回。</span>
